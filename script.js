@@ -1,3 +1,6 @@
+var timeEl = document.querySelector(".time");
+var mainEl = document.getElementById('main');
+
 var secondsLeft = 10;
 
 function setTime() {
@@ -28,4 +31,4 @@ question.forEach(function(question) {
   })
   console.log(question.answer);
   questionTitle.textContent = question.title;
-});    
+})}
