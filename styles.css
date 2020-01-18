@@ -6,6 +6,14 @@
     text-align: center;
 }
 
+.time {
+    display: block;
+}
+
+#main {
+  
+}
+
 #onClick {
     background-color: blue;
     color: white;
