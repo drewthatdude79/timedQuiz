@@ -1,9 +1,12 @@
-var questionTitle = document.getElementById('question');
-var onClick = document.getElementById('onClick');
+var currentQuestion = 0;
 
-onClick.addEventListener('Start Quiz', function() {
-  count++;
-})
+var questionTitle = document.getElementById('question');
+var startQuiz = document.getElementById('onClick');
+
+startQuiz.addEventListener('click', function() {
+  event.preventDefault();
+  console.log("You started the Quiz");
+});
 
 var question = [{
   title: "Commonly used data types that are Not included:",
@@ -30,31 +33,65 @@ var question = [{
   choice: ["javaScript", "terminal/bash", "for loop", "console.log"],
   answer: "console.log",
 }];
-
-  var currentQuestion = 0;
-// question[currentQuestion + 1];
+ //start quiz 
+ //change start screen to hide
+ //remove attribute
+ //questions.removeAttribute("class");
+ //start time call clock function and set interval
+ 
+question[currentQuestion += 1];
 console.log(currentQuestion);
 console.log(question[currentQuestion]);
 
 var questionToShow = question[currentQuestion];
 questionTitle.textContent = question[currentQuestion].title;
-questionToShow.choice.forEach(function (choice) {
+
+questionToShow.choice.forEach(function(choice) {
 
 })
+// add NEXT button to get the next question.
+question.addEventListener("onClick", function (q) {
+  currentQuestion++;
+  questionNow = question[currentQuestion];
+ questionTitle.text(questionNow.title);
+ userChoice.innerHTML = "";
+ 
+ questionNow.choice.forEach(choices, i) {
+   var choiceBtn = document.createElement("button");
+   choiceBtn.setAttribute("class", "choice");
+   choiceBtn.setAttribute("value", choices);
+   choiceBtn.textContent = i + 1 + '.' + choices;
 
-question.forEach(function (q) {
-  console.log(q);
-  console.log(q.title);
+   choiceBtn.onclick = checkAnswer();
+
+   userChoice.appendChild(choiceBtn);
+ }
+
+ function checkAnswer() {
+   if (this.value !== question[currentQuestion].answer){
+     secondsLeft -= 15;
+    if (secondsLeft < 0) {
+      secondsLeft = 0;
+    }
+    timeEl.textContent = secondsLeft;
+    alert("Wrong answer");
+   } else {
+     alert("Right answer!");
+   }
+   if (currentQuestion === question.length) {
+     endQuiz();
+   } else {
+
+   }
+ }
+  console.log('q.title------->', q.title);
   console.log(q.choice);
-  
-  console.log(question.answer);
-  // questionTitle.textContent = q.title;
+  questionTitle.textContent = q.title;
 })
 
 var timeEl = document.querySelector(".time");
-var mainEl = document.getElementById('main');
-var onClickEl = document.getElementById('onClick');
-
+var mainEl = document.querySelector('.main');
+var userChoice = document.querySelector(".userChoice");
 var secondsLeft = 75;
 
 function setTime() {
