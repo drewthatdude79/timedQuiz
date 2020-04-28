@@ -1,108 +1,167 @@
-var currentQuestion = 0;
+const currentQuestion = 0;
+let secondsLeft = 75;
 
-var questionTitle = document.getElementById('question');
-var startQuiz = document.getElementById('onClick');
+const timeEl = document.getElementById('timeCounter');
+const questionTitle = document.getElementById('questions');
+const startQuizEl = document.getElementById('onClick');
+const questionsEl = document.getElementById('questionContainer');
 
-startQuiz.addEventListener('click', function() {
+startQuizEl.addEventListener('click', function (event) {
   event.preventDefault();
   console.log("You started the Quiz");
+  console.log(questions[currentQuestion]);
+  startQuiz();
 });
 
-var question = [{
-  title: "Commonly used data types that are Not included:",
-  choice: ["stings", "booleans", "alerts", "number"],
-  answer: "alerts",
+const questions = [{
+  title: "What can you put in a barrel to make it lighter___?:",
+  choices: ["ants", "banana", "a hole", "air"],
+  answer: "a hole",
 },
 {
   title: "The condition in an if/else statement is enclosed within ___?",
-  choice: ["quotes", "curly brackets", "parentheses", "square brackets"],
+  choices: ["quotes", "curly brackets", "parentheses", "square brackets"],
   answer: "parentheses",
 },
 {
   title: "Arrays in JavaScript can be used to store?",
-  choice: ["numbers and strings", "other arrays", "booleans", "all the above"],
+  choices: ["numbers and strings", "other arrays", "booleans", "all the above"],
   answer: "all the above",
 },
 {
   title: "Sting values must be enclosed within____ when being assigned to variables.",
-  choice: ['commas', 'curly brackets', 'quotes', 'parentheses'],
+  choices: ['commas', 'curly brackets', 'quotes', 'parentheses'],
   answer: 'quotes',
 },
 {
   title: "A very useful tool used during development and debugging for printing content to the debugger is?",
-  choice: ["javaScript", "terminal/bash", "for loop", "console.log"],
+  choices: ["javaScript", "terminal/bash", "for loop", "console.log"],
   answer: "console.log",
 }];
- //start quiz 
- //change start screen to hide
- //remove attribute
- //questions.removeAttribute("class");
- //start time call clock function and set interval
- 
-question[currentQuestion += 1];
-console.log(currentQuestion);
-console.log(question[currentQuestion]);
 
-var questionToShow = question[currentQuestion];
-questionTitle.textContent = question[currentQuestion].title;
+function startQuiz() {
+  console.log(startQuiz);
+  const startScreen = document.getElementById('startScreen');
+  startScreen.setAttribute("class", "hide");
+  questionsEl.removeAttribute("class");
+  setTimeout();
+  getQuestion();
+}
+function getQuestion() {
 
-questionToShow.choice.forEach(function(choice) {
+  const questionNow = questions[currentQuestion];
+  questionTitle.textContent = questions[currentQuestion].title;
 
-})
-// add NEXT button to get the next question.
-question.addEventListener("onClick", function (q) {
-  currentQuestion++;
-  questionNow = question[currentQuestion];
- questionTitle.text(questionNow.title);
- userChoice.innerHTML = "";
- 
- questionNow.choice.forEach(choices, i) {
-   var choiceBtn = document.createElement("button");
-   choiceBtn.setAttribute("class", "choice");
-   choiceBtn.setAttribute("value", choices);
-   choiceBtn.textContent = i + 1 + '.' + choices;
+  questionNow.choices.forEach(function (choice, i) {
+    const choiceBtn = document.createElement("button");
+    choiceBtn.setAttribute("class", "choice");
+    choiceBtn.setAttribute("value", choice);
+    choiceBtn.textContent = i + 1 + '.' + choice;
 
-   choiceBtn.onclick = checkAnswer();
+    choiceBtn.onclick = checkAnswer();
 
-   userChoice.appendChild(choiceBtn);
- }
+    userChoice.appendChild(choiceBtn);
+  });
 
- function checkAnswer() {
-   if (this.value !== question[currentQuestion].answer){
-     secondsLeft -= 15;
+}
+function checkAnswer() {
+  if (this.value !== questions[currentQuestion].answer) {
+    secondsLeft -= 15;
     if (secondsLeft < 0) {
       secondsLeft = 0;
     }
     timeEl.textContent = secondsLeft;
     alert("Wrong answer");
-   } else {
-     alert("Right answer!");
-   }
-   if (currentQuestion === question.length) {
-     endQuiz();
-   } else {
-
-   }
- }
-  console.log('q.title------->', q.title);
-  console.log(q.choice);
-  questionTitle.textContent = q.title;
-})
-
-var timeEl = document.querySelector(".time");
-var mainEl = document.querySelector('.main');
-var userChoice = document.querySelector(".userChoice");
-var secondsLeft = 75;
-
-function setTime() {
-  var timerInterval = setInterval(function() {
-    secondsLeft--;
-    timeEl.textContent = secondsLeft + "The big winner!";
-
-    if(secondsLeft === 0) {
-      clearInterval(timerInterval);
-      sendMessage();
-    }
-
-  }, 1000);
+  } else {
+    alert("Right answer!");
+  }
+  if (currentQuestion === question.length) {
+    endQuiz();
+  } else {
+    getQuestion();
+  }
 }
+function endQuiz() {
+  clearInterval(timerInterval);
+  questionsEl.setAttribute("class", "hide");
+  const endScreen = document.getElementById("endScreen");
+  endScreen.removeAttribute("class");
+  const finalScore = document.getElementById('finalScore');
+  finalScore.textContent = secondsLeft;
+}
+function saveHighScore() {
+  const initals = document.getElementById('initalsHere');
+  const userInitals = initals.value.trim();
+
+  if (userInitals !== "") {
+    //existing hs's
+    const highScores = JSON.parse(window.localStorage.getItem("highScores")) || [];
+//new score entering array
+    let newScore = {
+      userInitals: userInitals, 
+      score: time
+    }
+    // push newScore into hiighscore
+    highScores.push(newScore);
+    //set items using JSON stringfy
+   localStorage.setItem("highScores", JSON.stringify(highScores));
+
+    //redircect to high schores page
+    window.location.href = "highScores.html";
+  }
+}
+
+function setTimeout(){
+secondsLeft--;
+timeEl.textContent = secondsLeft;
+}
+//start quiz 
+//change start screen to hide
+//remove attribute
+//questions.removeAttribute("class");
+//start time call clock function and set interval
+
+// questions[currentQuestion += 1];
+// console.log(currentQuestion);
+// console.log(question[currentQuestion]);
+
+// const questionToShow = questions[currentQuestion];
+// questionTitle.textContent = questions[currentQuestion].title;
+
+// questionToShow.choices.forEach(function (choice) {
+
+// })
+
+// questions.addEventListener("onClick", function (q) {
+//   event.defaultPrevented();
+//   currentQuestion++;
+//   questionNow = questions[currentQuestion];
+//   questionTitle.text(questionNow.title);
+//   userChoice.innerHTML = "";
+// });
+
+
+// })
+
+
+// console.log('q.title------->', q.title);
+// console.log(q.choice);
+// questionTitle.textContent = q.title;
+
+// const timeEl = document.querySelector(".time");
+// const mainEl = document.querySelector('.main');
+// const userChoice = document.querySelector(".userChoice");
+// const secondsLeft = 75;
+
+// function setTime() {
+//   const timerInterval = setInterval(function () {
+//     secondsLeft--;
+//     timeEl.textContent = secondsLeft + "The big winner!";
+
+//     if (secondsLeft === 0) {
+//       clearInterval(timerInterval);
+//       sendMessage();
+//     }
+
+//   }, 1000);
+// }

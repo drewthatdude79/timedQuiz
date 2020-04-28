@@ -17,12 +17,12 @@
             <div class="col-md-8">
                 <h1 class="time"></h1>
                 <div class="main">
-                    <h1>Timed Code Quiz</h1>
+                    <h1 id="timeCounter">Timed Code Quiz</h1>
                     <div class="row">
                         <div class="col-md-6">
-                            <p>Click Start to begin quiz!</p>
+
                             <div id="questionContainer" class="hide">
-                                <h3 id="question">Test text</h3>
+                                <h3 id="questions">Test text</h3>
                                 <div class="userChoice">
 
                                 </div>
@@ -32,12 +32,19 @@
                 </div>
             </div>
         </div>
-        <button id="startQuiz" type="text">Start Quiz</button>
-        <div class="currentQuestion">
-
+        <div id="startScreen">
+            <p>Click Start to begin quiz!</p>
+            <button id="onClick" type="text">Start Quiz</button>
+            <!-- <div class="currentQuestion">
+            </div> -->
         </div>
     </div>
-
+    <div id="endScreen" class="hide">
+        <p id="finalScore"></p>
+        <p>Enter Initals Here</p>
+        <input type="text" id="initalsHere"/>
+        <button id="submit">submit</button>
+    </div>
 
 
     <script src="script.js"></script>
