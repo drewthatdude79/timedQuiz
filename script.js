@@ -49,8 +49,14 @@ function startQuiz() {
 }
 function getQuestion() {
 
+  const userChoicesEl = document.querySelector('.userChoice');
+  userChoicesEl.innerHTML = "";
+
   const questionNow = questions[currentQuestion];
   questionTitle.textContent = questions[currentQuestion].title;
+
+  
+  console.log(userChoicesEl);
 
   questionNow.choices.forEach(function (choice, i) {
     const choiceBtn = document.createElement("button");
@@ -58,9 +64,10 @@ function getQuestion() {
     choiceBtn.setAttribute("value", choice);
     choiceBtn.textContent = i + 1 + '.' + choice;
 
-    choiceBtn.onclick = checkAnswer();
+    choiceBtn.onclick = checkAnswer;
 
-    userChoice.appendChild(choiceBtn);
+    userChoicesEl.appendChild(choiceBtn);
+
   });
 
 }
@@ -75,7 +82,7 @@ function checkAnswer() {
   } else {
     alert("Right answer!");
   }
-  if (currentQuestion === question.length) {
+  if (currentQuestion === questions.length) {
     endQuiz();
   } else {
     getQuestion();
@@ -96,41 +103,29 @@ function saveHighScore() {
   if (userInitals !== "") {
     //existing hs's
     const highScores = JSON.parse(window.localStorage.getItem("highScores")) || [];
-//new score entering array
+    //new score entering array
     let newScore = {
-      userInitals: userInitals, 
+      userInitals: userInitals,
       score: time
     }
     // push newScore into hiighscore
     highScores.push(newScore);
     //set items using JSON stringfy
-   localStorage.setItem("highScores", JSON.stringify(highScores));
+    localStorage.setItem("highScores", JSON.stringify(highScores));
 
     //redircect to high schores page
     window.location.href = "highScores.html";
   }
 }
 
-function setTimeout(){
-secondsLeft--;
-timeEl.textContent = secondsLeft;
+function setTimeout() {
+  secondsLeft--;
+  timeEl.textContent = secondsLeft;
 }
-//start quiz 
-//change start screen to hide
-//remove attribute
-//questions.removeAttribute("class");
-//start time call clock function and set interval
 
 // questions[currentQuestion += 1];
 // console.log(currentQuestion);
 // console.log(question[currentQuestion]);
-
-// const questionToShow = questions[currentQuestion];
-// questionTitle.textContent = questions[currentQuestion].title;
-
-// questionToShow.choices.forEach(function (choice) {
-
-// })
 
 // questions.addEventListener("onClick", function (q) {
 //   event.defaultPrevented();
@@ -163,5 +158,5 @@ timeEl.textContent = secondsLeft;
 //       sendMessage();
 //     }
 
-//   }, 1000);
+  // }, 1000);
 // }
